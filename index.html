@@ -88,6 +88,17 @@ header .brand b{text-shadow:2px 2px 0 var(--ink)}
 .video-card.flash{animation:flash .9s ease 2}
 @keyframes flash{50%{background:var(--yellow)}}
 
+/* Shorts (vertical 9:16, same size) */
+.shorts{display:grid;grid-template-columns:repeat(2,minmax(0,300px));gap:24px;justify-content:center;margin-top:8px}
+.short-card{background:#fff;border:var(--bd);border-radius:26px;box-shadow:0 7px 0 var(--ink);padding:12px}
+.short-card:nth-child(1){background:var(--sky)}.short-card:nth-child(2){background:var(--mint)}
+.short-card{text-align:left}
+.short-card h3{font-size:1.2rem;font-weight:800;line-height:1.2;margin-bottom:4px}
+.short-card p{color:var(--muted);font-weight:700;font-size:.92rem;line-height:1.35;margin-bottom:10px}
+.short-card.flash{animation:flash .9s ease 2}
+.short-card .frame{aspect-ratio:9/16}
+@media(max-width:600px){.shorts{grid-template-columns:minmax(0,300px)}}
+
 /* Features */
 .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:6px}
 .feat{border:var(--bd);border-radius:26px;box-shadow:var(--hs);padding:22px;text-align:center}
@@ -159,12 +170,13 @@ const CONFIG = {
     { url: "https://i.postimg.cc/pLs0BMP9/Screenshot-20261030-155950.jpg", caption: "App Screenshot 3" }
   ],
 
+  // শুধু এই দুটি YouTube Shorts (উল্লম্ব 9:16) থাকবে – url ও লেখা এখানে বদলান
   videos: [
     { title: "How to Download the App",
-      url: "https://youtu.be/Vh4sY8Bl8lw?si=-01VuXvwsmoDyZ3w",
+      url: "https://youtube.com/shorts/wJE9IqJPkrE?si=8ZPaGLzyq5KAAFTq",
       desc: "Watch this tutorial to learn how to download and install the app." },
     { title: "How to Use the App",
-      url: "https://youtu.be/e2xUyLGPKJg?si=hG1gEFA0FZSa9jWO",
+      url: "https://youtube.com/shorts/n4wM-s1kQ4o?si=2dTmTxbsAsAtWxJX",
       desc: "Watch this tutorial to understand how to use the app and explore its features." }
   ],
 
@@ -204,7 +216,12 @@ const CONFIG = {
     </div>
   </section>
 
-  <section><div class="wrap" id="videos"></div></section>
+  <section>
+    <div class="wrap center">
+      <h2 class="sec-title">Video Tutorials</h2>
+      <div class="shorts" id="videos"></div>
+    </div>
+  </section>
 
   <section>
     <div class="wrap center">
@@ -302,8 +319,8 @@ function ytEmbed(url){
 CONFIG.videos.forEach((v,i)=>{
   const src = ytEmbed(v.url);
   const card = document.createElement("article");
-  card.className = "video-card"; card.id = "vid" + i;
-  card.innerHTML = `<h2>${esc(v.title)}</h2><p>${esc(v.desc)}</p><div class="frame">` +
+  card.className = "short-card"; card.id = "vid" + i;
+  card.innerHTML = `<h3>${esc(v.title)}</h3><p>${esc(v.desc)}</p><div class="frame">` +
     (src ? `<iframe src="${esc(src)}" title="${esc(v.title)}" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`
          : `<div class="miss">Video link is missing or invalid.</div>`) + `</div>`;
   $("videos").appendChild(card);
